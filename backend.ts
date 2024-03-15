@@ -26,7 +26,7 @@ async function sendMailviaXlsx(excelName: string, sheetName: string, columnEmail
   for (let i = 0; i < data.length; i++) {
     const row :any = data[i]; // eslint-disable-line
     //set delay for sending emails
-    await sleep(2000);
+    await sleep(2000); //obs here could change this time lower, gmail can send only ~350 emails and after you get Too many login attempts for 10min.
     const mailOptions = {
       from: process.env.SEND_MAIL_USER,
       to: row[columnEmailName],
@@ -68,7 +68,7 @@ async function sendMailviaXlsxHTML(excelName: string, sheetName: string, columnE
   for (let i = 0; i < data.length; i++) {
     const row :any = data[i]; // eslint-disable-line
     //set delay for sending emails
-    await sleep(2000);
+    await sleep(2000); //obs here could change this time lower, gmail can send only ~350 emails and after you get Too many login attempts for 10min.
     const mailOptions = {
       from: process.env.SEND_MAIL_USER,
       to: row[columnEmailName],
