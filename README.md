@@ -13,6 +13,13 @@ Node.js and npm are required to run this project. You can download them from the
 
 ## Installation
 
+Clone the repository and navigate to the project directory in the terminal.
+
+```bash
+git clone https://github.com/ConducereIT/send-mailer/
+cd send-mailer
+```
+
 To install the dependencies, run the following command in the terminal:
 
 ```bash
