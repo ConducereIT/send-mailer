@@ -2,14 +2,11 @@
 
 ## Description
 
-This is a simple mailer that sends an email using the `nodemailer` package.
+This is a simple mailer that reads data from Google Sheets and can send emails using Python.
 
 ## Prerequisites
-Node.js and npm are required to run this project. You can download them from the following links:
-
-- [Node.js](https://nodejs.org/en/download/)
-- [npm](https://www.npmjs.com/get-npm)
-- [npx](https://www.npmjs.com/package/npx)
+Python 3.9+ is required to run this project. You can download it from:
+- [Python](https://www.python.org/downloads/)
 
 ## Installation
 
@@ -20,66 +17,52 @@ git clone https://github.com/ConducereIT/send-mailer/
 cd send-mailer
 ```
 
-To install the dependencies, run the following command in the terminal:
+Create a virtual environment and install the dependencies:
 
 ```bash
-npm install 
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
 ## Configuration
 
-To use the mailer, you need to configure the following environment variables:
-
-- `SEND_MAIL_HOST`: The host of the mail server
-- `SEND_MAIL_USER`: The username of the mail server
-- `SEND_MAIL_PASS`: The password of the mail server
-- `SEND_MAIL_SERVICE`: The service of the mail server
-
-You can configure the environment variables by creating a `.env` file in the root directory of the project and adding
-the following lines:
+To use the mailer, you need to configure the following environment variables in a `.env` file:
 
 ```env
+GOOGLE_SHEET_ID=your_google_sheet_id # must have a column named "email"
 SEND_MAIL_HOST=smtp.gmail.com
-SEND_MAIL_USER=...
-SEND_MAIL_PASS=...
+SEND_MAIL_USER=your_email@gmail.com
+SEND_MAIL_PASS=your_app_password
 SEND_MAIL_SERVICE=Gmail
+SEND_MAIL_SUBJECT=your_email_subject # the subject of the email
+TEMPLATE_PATH=path/to/your/index.html # the path to the template html file
+REPLACE_ARRAY_NAMES=name,phone,etc # the name of the columns in the sheet that will be replaced in the template
 ```
-
-You need to have a .xlsx file with a column for the email addresses. You can configure the file path by changing
-the `excelName` variable in the `backend.ts` file.
-example to run the mailer:
-
-```typescript
-await sendMailviaXlsx("data.xlsx", "ETTI", "Mail", "Test", "Text");
-```
-
-where:
-
-- `data.xlsx` is the file path
-- `ETTI` is the sheet name
-- `Mail` is the column name for the email addresses
-- `Test` is the subject
-- `Text` is the message
-
-```typescript
-await sendMailviaXlsxHTML("data.xlsx", "ETTI", "Mail", "Test", "<body>a</body>");
-```
-
-where:
-
-- `data.xlsx` is the file path
-- `ETTI` is the sheet name
-- `Mail` is the column name for the email addresses
-- `Test` is the subject
-- `<body>a</body>` is the html message
 
 ## Usage
 
-To use the mailer, run the following command in the terminal:
+To run the application:
 
 ```bash
-npx tsx backend.ts
+python app.py
 ```
+
+The application will:
+1. Read data from the specified Google Sheet
+2. Check for duplicate email addresses
+3. Display all found email addresses and names
+4. Log all operations to `app.log`
+5. Send emails to the found email addresses with the specified subject and template
+
+## Features
+
+- Reads data from Google Sheets
+- Validates email addresses
+- Checks for duplicate emails
+- Detailed logging
+- Configurable through environment variables
+- Sends emails to the found email addresses with the specified subject and template
 
 ## License
 
