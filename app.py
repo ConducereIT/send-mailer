@@ -183,10 +183,14 @@ class EmailTemplate:
         """
         Replace placeholders in the template with values from the row.
         Uses replace_array_names to know which fields to replace.
+        Ensures proper handling of Romanian characters.
         """
         result = self.template
         for field in self.replace_array_names:
             value = row.get(field, '').strip()
+            # Ensure the value is properly encoded as UTF-8
+            if isinstance(value, str):
+                value = value.encode('utf-8').decode('utf-8')
             result = result.replace(f'{{{{{field}}}}}', str(value))
         return result
 
