@@ -183,14 +183,15 @@ class EmailTemplate:
         """
         Replace placeholders in the template with values from the row.
         Uses replace_array_names to know which fields to replace.
-        Ensures proper handling of Romanian characters.
         """
         result = self.template
         for field in self.replace_array_names:
             value = row.get(field, '').strip()
-            # Ensure the value is properly encoded as UTF-8
             if isinstance(value, str):
-                value = value.encode('utf-8').decode('utf-8')
+                try:
+                    value = value.encode('latin1').decode('utf-8')
+                except:
+                    pass
             result = result.replace(f'{{{{{field}}}}}', str(value))
         return result
 
@@ -242,7 +243,6 @@ def main():
 
         logger.info(f"Email sending completed. Success: {success_count}, Failed: {fail_count}")
         
-        # Print failed emails report
         if fail_count > 0:
             logger.warning("\n" + email_sender.get_failed_emails_report())
 
